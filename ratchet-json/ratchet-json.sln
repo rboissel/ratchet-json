@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ratchet-json", "ratchet-json\ratchet-json.csproj", "{21143BC6-F660-428D-81E7-2C46EE8F5B9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{09757B57-0903-4AAF-9C27-0127175E85BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{B365B180-39B1-4BCE-AE5B-0B2C480649D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A192AEB4-ED11-485A-8F7A-371C45657B39}"
+	ProjectSection(SolutionItems) = preProject
+		Ratchet.IO.Format.JSON.nuspec = Ratchet.IO.Format.JSON.nuspec
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ratchet-json-net40", "Build\ratchet-json-net40\ratchet-json-net40.csproj", "{E738AB2B-C5DE-4581-A70F-3D542300A5CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ratchet-json-net45", "Build\ratchet-json-net45\ratchet-json-net45.csproj", "{8BB0108D-07A3-490B-8228-42324EE22680}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ratchet-json-net46", "Build\ratchet-json-net46\ratchet-json-net46.csproj", "{1BFB8747-D158-456A-B67C-DEAA7A4318DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21143BC6-F660-428D-81E7-2C46EE8F5B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21143BC6-F660-428D-81E7-2C46EE8F5B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21143BC6-F660-428D-81E7-2C46EE8F5B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21143BC6-F660-428D-81E7-2C46EE8F5B9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B365B180-39B1-4BCE-AE5B-0B2C480649D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B365B180-39B1-4BCE-AE5B-0B2C480649D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B365B180-39B1-4BCE-AE5B-0B2C480649D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B365B180-39B1-4BCE-AE5B-0B2C480649D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E738AB2B-C5DE-4581-A70F-3D542300A5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E738AB2B-C5DE-4581-A70F-3D542300A5CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E738AB2B-C5DE-4581-A70F-3D542300A5CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E738AB2B-C5DE-4581-A70F-3D542300A5CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BB0108D-07A3-490B-8228-42324EE22680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BB0108D-07A3-490B-8228-42324EE22680}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BB0108D-07A3-490B-8228-42324EE22680}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BB0108D-07A3-490B-8228-42324EE22680}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BFB8747-D158-456A-B67C-DEAA7A4318DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BFB8747-D158-456A-B67C-DEAA7A4318DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BFB8747-D158-456A-B67C-DEAA7A4318DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BFB8747-D158-456A-B67C-DEAA7A4318DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B365B180-39B1-4BCE-AE5B-0B2C480649D4} = {09757B57-0903-4AAF-9C27-0127175E85BD}
+		{E738AB2B-C5DE-4581-A70F-3D542300A5CE} = {A192AEB4-ED11-485A-8F7A-371C45657B39}
+		{8BB0108D-07A3-490B-8228-42324EE22680} = {A192AEB4-ED11-485A-8F7A-371C45657B39}
+		{1BFB8747-D158-456A-B67C-DEAA7A4318DC} = {A192AEB4-ED11-485A-8F7A-371C45657B39}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {03995BB7-2DD7-4DD5-8C8B-BDE2D59DF576}
+	EndGlobalSection
+EndGlobal

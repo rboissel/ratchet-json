@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2016/06/nuspec.xsd">
+  <metadata>
+    <id>Ratchet.IO.Format.JSON</id>
+    <version>1.0.0.0</version>
+    <authors>rboissel</authors>
+    <owners>rboissel</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/rboissel/ratchet-json</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/rboissel/ratchet/master/icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes></releaseNotes>
+    <description>Standalone version of the JSON parser file included in some of the ratchet libraries. Usually the parser file is included directly instead of including the library</description>
+    <copyright>Copyright ©2019 Raphael Boissel</copyright>
+    <language>en-US</language>
+    <tags>ratchet json parser</tags>
+  </metadata>
+</package>
