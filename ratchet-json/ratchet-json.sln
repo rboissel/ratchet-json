@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A192AEB4-ED11-485A-8F7A-371C45657B39}"
 	ProjectSection(SolutionItems) = preProject
-		Ratchet.IO.Format.JSON.nuspec = Ratchet.IO.Format.JSON.nuspec
+		Build\Ratchet.IO.Format.JSON.nuspec = Build\Ratchet.IO.Format.JSON.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ratchet-json-net40", "Build\ratchet-json-net40\ratchet-json-net40.csproj", "{E738AB2B-C5DE-4581-A70F-3D542300A5CE}"
