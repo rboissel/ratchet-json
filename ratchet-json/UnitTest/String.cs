@@ -62,5 +62,14 @@ namespace UnitTest
             Assert.IsTrue(result is JSON.String);
             Assert.AreEqual<string>("test\n\r", (result as JSON.String).Value);
         }
+
+        [TestMethod]
+        public void SpecialChar()
+        {
+            var result = JSON.Parse("\"Ŭŧƒ∞ is Magick ! █▌▐█ ☺☻♥♦♠♣\"");
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result is JSON.String);
+            Assert.AreEqual<string>("Ŭŧƒ∞ is Magick ! █▌▐█ ☺☻♥♦♠♣", (result as JSON.String).Value);
+        }
     }
 }

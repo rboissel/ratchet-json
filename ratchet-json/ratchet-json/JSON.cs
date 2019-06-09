@@ -90,16 +90,154 @@ namespace Ratchet.IO.Format
         }
         public class Number : Value
         {
-            Decimal _Value = 0;
-            public Decimal Value { get { return _Value; } set { _Value = value; } }
-            public static implicit operator Number(int Value) { Number n = new Number(); n._Value = Value; return n; }
-            public static implicit operator int(Number Number) { return (int)Number._Value; }
-            public override string ToString()
+            string _Value = "0";
+
+            bool IsValidNumber(string Number)
             {
-                string result = _Value.ToString().Replace(",", ".");
-                if (result.EndsWith(".0")) { return result.Replace(".0", ""); }
-                return result;
+                return true;
             }
+       
+            long Pow10Long(long value)
+            {
+                long ret = 1;
+                while (value > 0) { ret *= 10; value--; }
+                return ret;
+            }
+
+            long ParseAsLong()
+            {
+                long value = 0;
+                long exponent = 0;
+                long decimalPart = 0;
+                long decimalPartExponent = 0;
+                int position = 0;
+                bool negative = false;
+                bool negativeExp = false;
+
+                if (_Value[0] == '-') { negative = true; position = 1; }
+                for (; position < _Value.Length; position++)
+                {
+                    if (!char.IsDigit(_Value[position]))
+                    {
+                        if (_Value[position] == '.')
+                        {
+                            position++;
+                            for (; position < _Value.Length; position++)
+                            {
+                                if (!char.IsDigit(_Value[position])) { break; }
+                                decimalPart *= 10;
+                                decimalPart += ((int)(_Value[position] - '0'));
+                                decimalPartExponent++;
+                            }
+                        }
+
+                        if (position < _Value.Length && (_Value[position] == 'e' || _Value[position] == 'E'))
+                        {
+                            position++;
+                            if (position < _Value.Length && _Value[position] == '-') { negativeExp = true; position++; }
+
+                            for (; position < _Value.Length; position++)
+                            {
+                                if (!char.IsDigit(_Value[position])) { break; }
+                                exponent *= 10;
+                                exponent += ((int)(_Value[position] - '0'));
+                            }
+                        }
+                        break;
+                    }
+
+                    value *= 10;
+                    value += ((int)(_Value[position] - '0'));
+                }
+
+                if (negative) { value = -value; }
+                if (exponent > 0 & decimalPartExponent > 0 && !negativeExp)
+                {
+                    long decimalExp = decimalPartExponent - exponent;
+                    if (decimalExp > 0) { decimalPart = decimalPart / Pow10Long(decimalExp); }
+                    else { decimalPart = decimalPart * Pow10Long(decimalExp); }
+                    if (negative) { return value * Pow10Long(exponent) - decimalPart; }
+                    return value * Pow10Long(exponent) + decimalPart;
+                }
+                if (negativeExp) { return value / Pow10Long(exponent); } else { return value * Pow10Long(exponent); }
+            }
+
+
+            double ParseAsDouble()
+            {
+                double value = 0;
+                long exponent = 0;
+                double decimalPart = 0;
+                long decimalPartExponent = 0;
+                int position = 0;
+                bool negative = false;
+                bool negativeExp = false;
+
+                if (_Value[0] == '-') { negative = true; position = 1; }
+                for (; position < _Value.Length; position++)
+                {
+                    if (!char.IsDigit(_Value[position]))
+                    {
+                        if (_Value[position] == '.')
+                        {
+                            position++;
+                            for (; position < _Value.Length; position++)
+                            {
+                                if (!char.IsDigit(_Value[position])) { break; }
+                                decimalPart *= 10;
+                                decimalPart += ((int)(_Value[position] - '0'));
+                                decimalPartExponent++;
+                            }
+                        }
+
+                        if (position < _Value.Length && (_Value[position] == 'e' || _Value[position] == 'E'))
+                        {
+                            position++;
+                            if (position < _Value.Length && _Value[position] == '-') { negativeExp = true; position++; }
+
+                            for (; position < _Value.Length; position++)
+                            {
+                                if (!char.IsDigit(_Value[position])) { break; }
+                                exponent *= 10;
+                                exponent += ((int)(_Value[position] - '0'));
+                            }
+                        }
+                        
+                        break;
+                    }
+
+                    value *= 10;
+                    value += ((int)(_Value[position] - '0'));
+                }
+
+                if (negative)
+                {
+                    if (negativeExp) { return (-value - decimalPart * System.Math.Pow(10.0, -decimalPartExponent)) * System.Math.Pow(10.0, -exponent); }
+                    else { return (-value - decimalPart * System.Math.Pow(10.0, -decimalPartExponent)) * System.Math.Pow(10.0, exponent); }
+
+                }
+                else
+                {
+                    if (negativeExp) { return (value + decimalPart * System.Math.Pow(10.0, -decimalPartExponent)) * System.Math.Pow(10.0, -exponent); }
+                    else { return (value + decimalPart * System.Math.Pow(10.0, -decimalPartExponent)) * System.Math.Pow(10.0, exponent); }
+                }
+            }
+
+            internal static Number __TrustedCreateValue(string Value)
+            {
+                Number n = new Number();
+                if (Value == "") { n._Value = "0"; }
+                n._Value = Value;
+                return n;
+            }
+            public string Value { get { return _Value; } set { if (!IsValidNumber(_Value)) { throw new Exception("Number is not valid"); } _Value = value; } }
+            public static implicit operator Number(int Value) { Number n = new Number(); n._Value = Value.ToString(System.Globalization.CultureInfo.InvariantCulture); return n; }
+            public static implicit operator Number(Decimal Value) { Number n = new Number(); n._Value = Value.ToString(System.Globalization.CultureInfo.InvariantCulture); return n; }
+            public static implicit operator long(Number Number) { return Number.ParseAsLong(); }
+            public static implicit operator int(Number Number) { return (int)Number.ParseAsLong(); }
+            public static implicit operator double(Number Number) { return Number.ParseAsDouble(); }
+            public static implicit operator float(Number Number) { return (float)Number.ParseAsDouble(); }
+
         }
         public class Boolean : Value
         {
@@ -200,26 +338,11 @@ namespace Ratchet.IO.Format
         {
             if (Position >= Data.Length || Position < 0) { return null; }
             for (; Position < Data.Length && char.IsWhiteSpace(Data[Position]); Position++) ;
-            if (Data[Position] == '{')
-            {
-                Position++;
-                if (Position >= Data.Length || Position < 0) { return null; }
-                StringBuilder chunk = new StringBuilder();
-                int count = 1;
-                for (; Position < Data.Length; Position++)
-                {
-                    if (Data[Position] == '{') { count++; }
-                    if (Data[Position] == '}') { count--; if (count == 0) { break; } }
-                    chunk.Append(Data[Position]);
-                }
-                if (Position >= Data.Length || Position < 0) { return null; }
-                if (Data[Position] == '}') { Position++; }
-                int SubPosition = 0;
-                return _ParseObject(chunk.ToString(), ref SubPosition);
-            }
+            if (Data[Position] == '{') { return _ParseObject(Data, ref Position); }
             if (Data[Position] == '[') { return _ParseArray(Data, ref Position); }
             if (Data[Position] == '"' || Data[Position] == '\'' /* Permissive */ ) { return _ParseString(Data, ref Position); }
             if (Data[Position] == 'n') { return ParseNull(Data, ref Position); }
+            if (Data[Position] == '-') { return _ParseNumber(Data, ref Position); }
             if (char.IsDigit(Data[Position])) { return _ParseNumber(Data, ref Position); }
             if (Data[Position] == 't' || Data[Position] == 'f') { return _ParseBoolean(Data, ref Position); }
 
@@ -236,19 +359,44 @@ namespace Ratchet.IO.Format
         }
         private static Number _ParseNumber(string Data, ref int Position)
         {
+            StringBuilder builder = new StringBuilder();
             for (; Position < Data.Length && char.IsWhiteSpace(Data[Position]); Position++) ;
-            int value = 0;
+            if (Position < Data.Length && Data[Position] == '-') { builder.Append('-'); Position++; }
+
             for (; Position < Data.Length; Position++)
             {
-                if (!char.IsDigit(Data[Position])) { return value; }
-                value *= 10;
-                value += (int)(Data[Position] - '0');
+                if (!char.IsDigit(Data[Position])) { break; }
+                builder.Append(Data[Position]);
             }
-            return value;
+
+            if (Position < Data.Length && Data[Position] == '.')
+            {
+                builder.Append('.'); Position++;
+                for (; Position < Data.Length; Position++)
+                {
+                    if (!char.IsDigit(Data[Position])) { break; }
+                    builder.Append(Data[Position]);
+                }
+            }
+
+            if (Position < Data.Length && (Data[Position] == 'e' || Data[Position] == 'E'))
+            {
+                builder.Append('E'); Position++;
+                if (Position < Data.Length && Data[Position] == '-') { builder.Append('-'); Position++; }
+
+                for (; Position < Data.Length; Position++)
+                {
+                    if (!char.IsDigit(Data[Position])) { break; }
+                    builder.Append(Data[Position]);
+                }
+            }
+
+            return Number.__TrustedCreateValue(builder.ToString());
         }
         private static Object _ParseObject(string Data, ref int Position)
         {
             Object obj = new Object();
+            if (Data[Position] == '{') { Position++; }
             if (Position >= Data.Length || Position < 0) { return new Object(); }
             while (Position < Data.Length)
             {
@@ -256,6 +404,7 @@ namespace Ratchet.IO.Format
                 if (Position >= Data.Length) { break; }
                 if (Data[Position] != '"')
                 {
+                    if (Data[Position] == '}') { Position++; }
                     return obj;
                 }
                 String key = _ParseString(Data, ref Position);

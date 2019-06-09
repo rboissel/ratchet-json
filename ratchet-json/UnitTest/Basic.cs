@@ -22,7 +22,7 @@ namespace UnitTest
             var result = JSON.Parse("123");
             Assert.IsNotNull(result);
             Assert.IsTrue(result is JSON.Number);
-            Assert.AreEqual<Decimal>(123, ((result as JSON.Number).Value));
+            Assert.AreEqual<string>("123", ((result as JSON.Number).Value));
         }
 
         [TestMethod]

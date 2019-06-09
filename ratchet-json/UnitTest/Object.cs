@@ -34,5 +34,24 @@ namespace UnitTest
             Assert.IsTrue(result is JSON.Object);
             Assert.ThrowsException<KeyNotFoundException>(() => { object dummy = (result as JSON.Object)["notpresent"]; });
         }
+
+        [TestMethod]
+        public void Neasted()
+        {
+            var result = JSON.Parse("{\"level\":1, \"neasted\":{\"level\":2} }");
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result is JSON.Object);
+            Assert.AreEqual<string>("1", ((result as JSON.Object)["level"] as JSON.Number).Value);
+            Assert.AreEqual<string>("2", (((result as JSON.Object)["neasted"] as JSON.Object)["level"] as JSON.Number).Value);
+        }
+
+        [TestMethod]
+        public void BracesAsKey()
+        {
+            var result = JSON.Parse("{\"{}\":1}");
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result is JSON.Object);
+            Assert.AreEqual<string>("1", ((result as JSON.Object)["{}"] as JSON.Number).Value);
+        }
     }
 }
