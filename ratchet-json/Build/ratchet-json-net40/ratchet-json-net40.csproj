@@ -27,11 +27,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\Debug\ratchet-json\lib\net40\</OutputPath>
+    <OutputPath>..\..\bin\Release\ratchet-json\lib\net40\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\bin\Debug\ratchet-json\lib\net40\ratchet-json.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\Release\ratchet-json\lib\net40\ratchet-json.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
